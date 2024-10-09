@@ -7298,13 +7298,12 @@ h1, h2, h3, h4, h5,
   color: #2f89fc !important; }
 
 .ftco-navbar-light {
-  background:  #f5faff5c !important;
-  backdrop-filter: blur(20px);
-  position: absolute;
-  top: 2px;
+  backdrop-filter: blur(15px);
+  top: 0;
   left: 0;
   right: 0;
-  z-index: 3; }
+  z-index: 3;
+position: relative;}
   @media (min-width: 992px) {
     .ftco-navbar-light {
       padding: 15px 0; } }
@@ -7543,9 +7542,9 @@ h1, h2, h3, h4, h5,
     position: relative; }
     .owl-carousel.home-slider .slider-item {
       background-size: cover;
+      background-position-x: center;
       background-repeat: no-repeat;
-      background-position: center center;
-      height: 600px;
+      height: 80vh;
       position: relative; }
       .owl-carousel.home-slider .slider-item .overlay {
         position: absolute;
