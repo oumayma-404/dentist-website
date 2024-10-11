@@ -10616,7 +10616,7 @@ h1, h2, h3, h4, h5,
 
 .owl-carousel.home-slider .slider-item .slider-text {
     color: #fff;
-    height: 700px;
+    height: 400px;
 }
 
 .owl-carousel.home-slider .slider-item .slider-text h1 {
@@ -10624,14 +10624,12 @@ h1, h2, h3, h4, h5,
     color: #00008b;
     line-height: 1.2;
     font-weight: 600;
-    font-family: "Raleway",Arial,Helvetica,sans-serif;
 }
 .owl-carousel.home-slider .slider-item .slider-text h2 {
     font-size: 40px;
     color: #00008b;
     line-height: 0.5;
-    font-weight: 200;
-    font-family: "Raleway",Arial,Helvetica,sans-serif;
+    font-weight: 400;
 }
 @media (max-width: 991.98px) {
     .owl-carousel.home-slider .slider-item .slider-text h1 {
@@ -12248,7 +12246,7 @@ textarea.form-control {
     left: 0;
     right: 0;
     margin-bottom: 0;
-    opacity: 0;
+    opacity: 1;
     -moz-transition: all 0.3s ease;
     -o-transition: all 0.3s ease;
     -webkit-transition: all 0.3s ease;
@@ -12264,14 +12262,12 @@ textarea.form-control {
 }
 
 .pricing-entry .button .btn.btn-outline-primary {
-    background: #fff;
-    border: 1px solid #f0f0f0;
-    color: #cccccc;
+    background: #2f89fc !important;
+    border: 1px solid #2f89fc !important;
+    color: #fff;
 }
 
-.pricing-entry .button .btn.btn-outline-primary:hover, .pricing-entry .button .btn.btn-outline-primary:focus {
-    background: #fff !important;
-}
+
 
 .pricing-entry:hover, .pricing-entry:focus {
     border: 1px solid #2f89fc;
