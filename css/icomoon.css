@@ -640,6 +640,10 @@
     content: "\f095";
 }
 
+.icon-whatsapp:before {
+    content: "\f232";
+}
+
 .icon-square-o:before {
     content: "\f096";
 }
