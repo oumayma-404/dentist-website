@@ -86,7 +86,10 @@ AOS.init({
                 1000: {
                     items: 1
                 }
-            }
+            },
+            autoplay: true, // Enable auto-slide
+            autoplayTimeout: 3000, // Change image every 3 seconds
+            autoplayHoverPause: true, // Pause on hover
         });
 
     };

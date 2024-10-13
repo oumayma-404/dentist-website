@@ -10201,7 +10201,7 @@ body {
     font-size: 15px;
     line-height: 1.8;
     font-weight: 400;
-    color: gray;
+    color: #504c4c;
 }
 
 body.menu-show {
@@ -11951,10 +11951,27 @@ textarea.form-control {
 .img,
 .blog-img,
 .user-img {
-    background-size: cover;
+    background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
 }
+.carousel-testimony {
+    width: 100%; /* Set the carousel width to 80% of the screen */
+    margin: 0 auto; /* Center the carousel horizontally */
+}
+
+.carousel-testimony .item .testimony-wrap {
+    padding: 0; /* Remove padding to ensure the images take full space */
+}
+
+.user-img {
+    width: 100%; /* Ensure the image takes up the full width of its container */
+    height: auto; /* Ensure the image height adjusts automatically */
+    background-size: contain; /* Adjust the image size without cropping */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+}
+
 
 .testimony-section {
     position: relative;
@@ -11970,12 +11987,11 @@ textarea.form-control {
 }
 
 .testimony-wrap .user-img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    position: relative;
-    margin-top: -75px;
-    margin: 0 auto;
+    width: auto; /* Ensure the image takes up the full width of its container */
+    height: 500px; /* Ensure the image height adjusts automatically */
+    background-size: contain; /* Adjust the image size without cropping */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
 }
 
 .testimony-wrap .user-img .quote {
