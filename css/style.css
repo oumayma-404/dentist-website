@@ -10661,6 +10661,10 @@ h1, h2, h3, h4, h5,
     .row.d-flex {
         flex-direction: column; /* Stack the image and text vertically */
     }
+    .col-lg-6.img {
+        order: -1; /* Move the image to the top */
+        height: 200px; /* Reduce the image height on mobile */
+    }
     
 }
 
