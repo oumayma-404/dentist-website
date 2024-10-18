@@ -106,6 +106,35 @@ body {
     height: 300px;
     border-radius: 50%;
 }
+.contact-avatar{
+    width:5em;
+    height: 5em;
+    border-radius: 50%;
+    border: 1px solid #4363DF;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+.contact-item {
+    text-align: center; /* Center the text and images */
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center the elements horizontally */
+}
+
+.contact-avatar {
+    margin-bottom: 10px; /* Add space between avatar and title */
+}
+
+.contact-title {
+    font-weight: bold;
+    margin-bottom: 5px; /* Space between title and info */
+}
+
+.contact-info {
+    margin-top: 0; /* Ensure info is directly below the title */
+}
+
 
 .right-section {
     flex: 1; /* Takes 50% width */
@@ -2381,6 +2410,25 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
 .input-group-lg > .input-group-prepend > select.btn:not([size]):not([multiple]),
 .input-group-lg > .input-group-append > select.btn:not([size]):not([multiple]) {
     height: calc(2.875rem + 2px);
+}
+.styled-form {
+    background-color: #f8f9fa; /* Very light gray background */
+    padding: 20px;             /* Add padding inside the form */
+    border-radius: 10px;        /* Slightly round corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+.styled-form .form-control {
+    border-radius: 5px; /* Make the inputs slightly rounded */
+    padding-left: 10px;
+}
+
+.styled-form .form-group {
+    margin-bottom: 15px; /* Add some space between the fields */
+}
+
+.styled-form .btn {
+    border-radius: 5px; /* Round button corners */
 }
 
 .form-group {

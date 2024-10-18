@@ -72,14 +72,14 @@
 
 <section class="home-slider owl-carousel">
     <div class="slider-item bread-item" data-stellar-background-ratio="0.5"
-         style="background-image: url('images/bg_1.jpg');">
+         style="background-image: url('images/1920-doctor-handshake-with-a-patient.jpg');">
         <div class="overlay"></div>
         <div class="container" data-scrollax-parent="true">
             <div class="row slider-text align-items-end">
                 <div class="col-md-7 col-sm-12 ftco-animate mb-5">
                     <p class="breadcrumbs" data-scrollax=" properties: { translateY: '70%', opacity: 1.6}"><span
                             class="mr-2"><a href="index.html">Home</a></span> <span>Blog</span></p>
-                    <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Contact Us</h1>
+                    <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Contactez Cabinet Dr Hamdane</h1>
                 </div>
             </div>
         </div>
@@ -93,43 +93,71 @@
                 <h2 class="h4">Contact Information</h2>
             </div>
             <div class="w-100"></div>
-            <div class="col-md-3">
-                <p><span>Address:</span> 198 West 21th Street, Suite 721 New York NY 10016</p>
+
+            <!-- Address Section -->
+            <div class="col-md-4" style="border-right: 1px solid lightgrey">
+                <div class="contact-item" style="display: flex; align-items: center;">
+                    <div class="contact-avatar" style="display: flex; align-items: center">
+                        <img src="./images/contacts/address.png" alt="adresse" style="width: 60%; height: 60%">
+                    </div>
+                    <div class="contact-text">
+                        <span class="contact-title">Adresse:</span>
+                        <span class="contact-info"><p>Immeuble Olympia, rue du Koweit, Hammamet, Nabeul, Tunisie</p></span>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-3">
-                <p><span>Phone:</span> <a href="tel://1234567920">+ 1235 2355 98</a></p>
+
+            <!-- Phone Section -->
+            <div class="col-md-4" style="border-right: 1px solid lightgrey">
+                <div class="contact-item" style="display: flex; align-items: center;">
+                    <div class="contact-avatar" style="display: flex; align-items: center">
+                        <img src="./images/contacts/phone.png" alt="phone" style="width: 60%; height: 60%">
+                    </div>
+                    <div class="contact-text">
+                        <span class="contact-title">Phone:</span>
+                        <span class="contact-info"><p><a href="tel://+21622920867">+216 22 920 867</a></p></span>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-3">
-                <p><span>Email:</span> <a href="mailto:info@yoursite.com">info@yoursite.com</a></p>
-            </div>
-            <div class="col-md-3">
-                <p><span>Website</span> <a href="#">yoursite.com</a></p>
+            <hr/>
+
+            <!-- Email Section -->
+            <div class="col-md-4">
+                <div class="contact-item" style="display: flex; align-items: center;">
+                    <div class="contact-avatar" style="display: flex; align-items: center">
+                        <img src="./images/contacts/mail.png" alt="mail" style="width: 60%; height: 60%">
+                    </div>                    
+                    <div class="contact-text">
+                        <span class="contact-title">Email:</span>
+                        <span class="contact-info"><p><a href="mailto:info@yoursite.com">dr.khaireddine.hamdane@gmail.com</a></p></span>
+                    </div>
+                </div>
             </div>
         </div>
+
         <div class="row block-9">
             <div class="col-md-6 pr-md-5">
-                <form action="#">
+                <form action="https://formspree.io/f/manyyzrp" method="POST" class="styled-form">
                     <div class="form-group">
-                        <input class="form-control" placeholder="Your Name" type="text">
+                        <input class="form-control" placeholder="Votre Nom et Prénom" type="text" name="name" required>
                     </div>
                     <div class="form-group">
-                        <input class="form-control" placeholder="Your Email" type="text">
+                        <input class="form-control" placeholder="Votre Email" type="email" name="email" required>
                     </div>
                     <div class="form-group">
-                        <input class="form-control" placeholder="Subject" type="text">
+                        <input class="form-control" placeholder="Objet" type="text" name="subject" required>
                     </div>
                     <div class="form-group">
-                        <textarea class="form-control" cols="30" id="" name="" placeholder="Message"
-                                  rows="7"></textarea>
+                        <textarea class="form-control" cols="30" id="" name="message" placeholder="Votre Message" rows="7" required></textarea>
                     </div>
                     <div class="form-group">
-                        <input class="btn btn-primary py-3 px-5" type="submit" value="Send Message">
+                        <input class="btn btn-primary py-3 px-5" type="submit" value="Envoyer">
                     </div>
                 </form>
 
             </div>
 
-            <div class="col-md-6" id="map"></div>
+            <div class="col-md-6"> <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3211.11296597991!2d10.604705612032566!3d36.40646207224682!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12fd610017ce171f%3A0x1e7c443b67d39a96!2sCabinet%20de%20Parodontologie%20et%20Implantologie%20orale%20Dr%20Khaireddine%20Hamdane%20(Hammamet%2C%20Nabeul%2C%20Tunisie)!5e0!3m2!1sfr!2stn!4v1729262140152!5m2!1sfr!2stn" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
         </div>
     </div>
 </section>
