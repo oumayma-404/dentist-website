@@ -3,4 +3,4 @@ User-agent: *
 Disallow:
 
 # Specify the location of your sitemap
-Sitemap: https://yourwebsite.com/sitemap.xml
+Sitemap: https://implants-hammamet.tn/sitemap.xml
