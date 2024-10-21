@@ -10346,6 +10346,8 @@ h1, h2, h3, h4, h5,
     letter-spacing: .1em;
     text-transform: uppercase;
     color: #fff; }
+
+
 .site-block-feature p {
     color: rgba(255, 255, 255, 0.4);
     font-size: 1rem; }
@@ -10683,17 +10685,22 @@ h1, h2, h3, h4, h5,
     font-size: 60px;
     color: #00008b;
     line-height: 1.2;
+    font-family: "Fraunces", serif;
     font-weight: 600;
 }
 .owl-carousel.home-slider .slider-item .slider-text h2 {
     font-size: 40px;
     color: #00008b;
-    line-height: 0.5;
+    font-family: "Fraunces", serif;
+    line-height: 1;
     font-weight: 400;
 }
 @media (max-width: 991.98px) {
     .owl-carousel.home-slider .slider-item .slider-text h1 {
-        font-size: 40px;
+        font-size: 45px;
+    }
+    .owl-carousel.home-slider .slider-item .slider-text h2 {
+        font-size: 30px;
     }
 }
 
@@ -10948,7 +10955,6 @@ h1, h2, h3, h4, h5,
 }
 
 .ftco-intro h3 {
-    font-size: 20px;
     color: #fff;
 }
 
