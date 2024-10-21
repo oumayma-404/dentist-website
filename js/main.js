@@ -48,7 +48,7 @@ AOS.init({
             autoplay: true,
             margin: 0,
             animateOut: 'fadeOut',
-            animateIn: 'fadeIn',
+            animateIn: 'fadeInLeft',
             nav: false,
             autoplayHoverPause: false,
             items: 1,
