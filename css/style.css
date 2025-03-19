@@ -92,7 +92,18 @@ body {
     z-index: -1; /* Send background behind content */
 }
 
+.contact-info a {
+    color: #2f89fc;
+    display: block; /* Makes the link appear on a new line */
+    text-decoration: underline;
+}
 
+.contact-info a:hover {
+    font-weight: bold;
+    text-decoration: underline;
+
+
+}
 
 .left-section {
     display: flex;
