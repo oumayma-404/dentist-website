@@ -4432,6 +4432,16 @@ input[type="button"].btn-block {
     border-color: #e9ecef #e9ecef #dee2e6;
 }
 
+@media (max-width: 768px) { /* Adjust breakpoint as needed */
+    .navbar-nav .dropdown-menu {
+        display: block !important;
+        position: static !important;
+        background: none; /* Remove background if necessary */
+        border: none; /* Remove border if necessary */
+        box-shadow: none; /* Remove shadow if needed */
+    }
+}
+
 .nav-tabs .nav-link.disabled {
     color: #6c757d;
     background-color: transparent;
