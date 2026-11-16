@@ -1,0 +1,30 @@
+---
+import type { Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const ui = t(lang);
+---
+
+<section class="hours-card" aria-labelledby="hours-title">
+  <h2 id="hours-title"><Icon name="clock" />{ui.common.hours}</h2>
+  <dl>
+    <div>
+      <dt>{ui.hours.weekdays}</dt>
+      <dd>{ui.hours.weekdaysTime}</dd>
+    </div>
+    <div>
+      <dt>{ui.hours.saturday}</dt>
+      <dd>{ui.hours.saturdayTime}</dd>
+    </div>
+    <div>
+      <dt>{ui.hours.sunday}</dt>
+      <dd class="closed">{ui.hours.closed}</dd>
+    </div>
+  </dl>
+</section>

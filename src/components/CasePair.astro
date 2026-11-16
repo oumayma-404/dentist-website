@@ -1,0 +1,29 @@
+---
+import { Image } from 'astro:assets';
+import { CASES, type CaseKey } from '../data/cases';
+import type { Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+
+interface Props {
+  caseKey: CaseKey;
+  lang: Locale;
+  /** Treatment name, used in the alt text of both photos. */
+  title: string;
+  sizes?: string;
+}
+
+const { caseKey, lang, title, sizes = '(max-width: 800px) 46vw, 280px' } = Astro.props;
+const clinicalCase = CASES[caseKey];
+const ui = t(lang);
+---
+
+<div class="pair">
+  <div class="pair__tile">
+    <Image src={clinicalCase.before} alt={`${title} (${ui.common.before})`} widths={[300, 450, 600]} sizes={sizes} />
+    <span class="pair__label" aria-hidden="true">{ui.common.before}</span>
+  </div>
+  <div class="pair__tile">
+    <Image src={clinicalCase.after} alt={`${title} (${ui.common.after})`} widths={[300, 450, 600]} sizes={sizes} />
+    <span class="pair__label pair__label--after" aria-hidden="true">{ui.common.after}</span>
+  </div>
+</div>

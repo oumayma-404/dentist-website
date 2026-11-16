@@ -1,0 +1,42 @@
+---
+import { Image } from 'astro:assets';
+import { whatsappHref } from '../data/clinic';
+import type { Treatment } from '../data/treatments';
+import type { Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import CasePair from './CasePair.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  treatment: Treatment;
+  lang: Locale;
+}
+
+const { treatment, lang } = Astro.props;
+const ui = t(lang);
+const title = treatment.title[lang];
+---
+
+<details class="treat" id={treatment.slug}>
+  <summary class="treat__summary">
+    <span class="icon-tile"><Icon name={treatment.icon} /></span>
+    <h3 class="treat__name">{title}</h3>
+    <span class="treat__text">{treatment.summary[lang]}</span>
+    {treatment.caseKey && <span class="tag">{ui.common.beforeAfter}</span>}
+    <Icon name="chevron" class="treat__chevron flip" />
+  </summary>
+  <div class="treat__body">
+    <p>{treatment.body[lang]}</p>
+    {treatment.caseKey && <CasePair caseKey={treatment.caseKey} lang={lang} title={title} sizes="(max-width: 800px) 44vw, 250px" />}
+    {
+      !treatment.caseKey && treatment.illustration && (
+        <div class="illustration">
+          <Image src={treatment.illustration} alt={title} widths={[400, 640]} sizes="(max-width: 800px) 90vw, 520px" />
+        </div>
+      )
+    }
+    <a class="more-link" href={whatsappHref(ui.common.whatsappAbout + title)} target="_blank" rel="noopener">
+      <Icon name="whatsapp" />{ui.common.bookTreatment}
+    </a>
+  </div>
+</details>

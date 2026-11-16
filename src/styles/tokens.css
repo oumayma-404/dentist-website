@@ -1,0 +1,39 @@
+/*
+ * Pétrole & Porcelaine — brand tokens.
+ * Pétrole comes from the logo, Porcelaine from dental ceramics, Gencive (the accent)
+ * from healthy gum tissue and Titane from the implant itself.
+ */
+:root {
+  --petrol: #174457;
+  --petrol-night: #0c2a36;
+  --porcelain: #f3f6f5;
+  --enamel: #ffffff;
+  --mist: #e2ecea;
+  --gingiva: #e8857b;
+  --gingiva-ink: #b4473f; /* accent for text on light backgrounds (4.9:1) */
+  --titanium: #5e6f77; /* secondary text (4.8:1 on Porcelaine) */
+  --ink: #233238; /* body text */
+  --line: #d3dedd;
+  --on-dark: #dce6e5;
+  --on-dark-muted: #9db4b7;
+  --whatsapp: #1fa855;
+
+  --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-text: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+
+  --radius-sm: 6px;
+  --radius: 16px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+  --shadow-float: 0 14px 30px -12px rgba(12, 42, 54, 0.35);
+
+  --header-h: 76px;
+  --container: 1160px;
+  --gutter: clamp(16px, 4vw, 40px);
+}
+
+/* Arabic pages pair Noto Naskh Arabic (display) with IBM Plex Sans Arabic (text). */
+:root[lang='ar'] {
+  --font-display: 'Noto Naskh Arabic', 'Traditional Arabic', 'Times New Roman', serif;
+  --font-text: 'IBM Plex Sans Arabic', 'IBM Plex Sans', 'Segoe UI', Tahoma, Arial, sans-serif;
+}

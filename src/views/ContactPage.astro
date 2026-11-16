@@ -1,0 +1,103 @@
+---
+import Breadcrumb from '../components/Breadcrumb.astro';
+import Icon from '../components/Icon.astro';
+import OpeningHours from '../components/OpeningHours.astro';
+import { clinic, whatsappHref } from '../data/clinic';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import type { Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const ui = t(lang);
+const mapsEmbed = `${clinic.mapsEmbedUrl}&hl=${lang}`;
+---
+
+<BaseLayout lang={lang} page="contact">
+  <div class="container contact-layout">
+    <div class="contact-layout__main">
+      <Breadcrumb lang={lang} page="contact" />
+      <h1 class="h1">{ui.contact.title}</h1>
+      <p class="lead">{ui.contact.lead}</p>
+
+      <div class="contact-item">
+        <span class="contact-item__icon"><Icon name="phone" /></span>
+        <div>
+          <small>{ui.common.phone}</small>
+          <strong class="ltr">{clinic.phone}</strong>
+        </div>
+        <a class="btn btn--primary btn--sm" href={clinic.phoneHref}>{ui.common.call}</a>
+      </div>
+
+      <div class="contact-item">
+        <span class="contact-item__icon contact-item__icon--whatsapp"><Icon name="whatsapp" /></span>
+        <div>
+          <small>{ui.common.whatsapp}</small>
+          <strong class="ltr">{clinic.phone}</strong>
+        </div>
+        <a class="btn btn--whatsapp btn--sm" href={whatsappHref(ui.common.whatsappMessage)} target="_blank" rel="noopener">
+          {ui.common.write}
+        </a>
+      </div>
+
+      <div class="contact-item">
+        <span class="contact-item__icon"><Icon name="mail" /></span>
+        <div>
+          <small>{ui.common.email}</small>
+          <strong><a class="ltr" href={`mailto:${clinic.email}`}>{clinic.email}</a></strong>
+        </div>
+        <button class="btn btn--ghost btn--sm" type="button" data-copy={clinic.email} data-copied={ui.common.copied}>
+          <Icon name="copy" /><span>{ui.common.copy}</span>
+        </button>
+      </div>
+
+      <div class="contact-item">
+        <span class="contact-item__icon"><Icon name="pin" /></span>
+        <div>
+          <small>{ui.common.addressLabel}</small>
+          <strong>{ui.common.address}</strong>
+        </div>
+        <a class="btn btn--ghost btn--sm" href={clinic.mapsUrl} target="_blank" rel="noopener">{ui.common.directions}</a>
+      </div>
+
+      <OpeningHours lang={lang} />
+    </div>
+
+    <div class="map-card">
+      <iframe src={mapsEmbed} title={ui.contact.mapTitle} loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen
+      ></iframe>
+      <div class="map-card__foot">
+        <div>
+          <b>{ui.common.addressShort}</b>
+          <span>{ui.contact.place}</span>
+        </div>
+        <a class="btn btn--primary btn--sm" href={clinic.mapsUrl} target="_blank" rel="noopener">
+          <Icon name="route" />{ui.common.openMaps}
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  // "Copy" button for the e-mail address. If the browser refuses the clipboard, open the mail app instead.
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((button) => {
+    const label = button.querySelector('span');
+    const original = label?.textContent ?? '';
+    button.addEventListener('click', async () => {
+      const value = button.dataset.copy ?? '';
+      try {
+        await navigator.clipboard.writeText(value);
+        if (label) {
+          label.textContent = button.dataset.copied ?? original;
+          window.setTimeout(() => (label.textContent = original), 1600);
+        }
+      } catch {
+        window.location.href = `mailto:${value}`;
+      }
+    });
+  });
+</script>

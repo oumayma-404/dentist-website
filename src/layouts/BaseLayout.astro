@@ -1,0 +1,95 @@
+---
+// Fonts are self-hosted. Each file declares unicode ranges, so a browser downloads the
+// Arabic faces only on pages that contain Arabic text.
+import '@fontsource/cormorant-garamond/500.css';
+import '@fontsource/cormorant-garamond/600.css';
+import '@fontsource/cormorant-garamond/500-italic.css';
+import '@fontsource/cormorant-garamond/600-italic.css';
+import '@fontsource/ibm-plex-sans/400.css';
+import '@fontsource/ibm-plex-sans/500.css';
+import '@fontsource/ibm-plex-sans/600.css';
+import '@fontsource/ibm-plex-sans-arabic/400.css';
+import '@fontsource/ibm-plex-sans-arabic/500.css';
+import '@fontsource/ibm-plex-sans-arabic/600.css';
+import '@fontsource/noto-naskh-arabic/500.css';
+import '@fontsource/noto-naskh-arabic/600.css';
+import '../styles/tokens.css';
+import '../styles/global.css';
+
+import { getImage } from 'astro:assets';
+import doctor from '../assets/doctor.png';
+import logo from '../assets/logo.png';
+import FloatingActions from '../components/FloatingActions.astro';
+import IconSprite from '../components/IconSprite.astro';
+import JsonLd from '../components/JsonLd.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { clinic } from '../data/clinic';
+import { clinicSchema, websiteSchema } from '../data/structured-data';
+import { DEFAULT_LOCALE, LOCALES, absoluteUrl, dir, type Locale, type PageKey } from '../i18n/routes';
+import { t } from '../i18n/ui';
+
+interface Props {
+  lang: Locale;
+  /** The page in the route map. Omit it for pages outside the map (404). */
+  page?: PageKey;
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const { lang, page, noindex = false } = Astro.props;
+const ui = t(lang);
+const meta = page ? ui.meta[page] : undefined;
+const title = Astro.props.title ?? meta?.title ?? clinic.name;
+const description = Astro.props.description ?? meta?.description ?? ui.footer.tagline;
+const canonical = page ? absoluteUrl(page, lang, Astro.site) : undefined;
+
+const OG_LOCALE: Record<Locale, string> = { fr: 'fr_FR', en: 'en_US', ar: 'ar_TN' };
+const ogImage = await getImage({ src: doctor, width: 960, format: 'jpg' });
+const logoImage = await getImage({ src: logo, format: 'png' });
+const ogImageUrl = new URL(ogImage.src, Astro.site).href;
+const logoUrl = new URL(logoImage.src, Astro.site).href;
+const otherLocales = LOCALES.filter((code) => code !== lang);
+---
+
+<!doctype html>
+<html lang={lang} dir={dir(lang)}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    {canonical && <link rel="canonical" href={canonical} />}
+    {page && LOCALES.map((code) => <link rel="alternate" hreflang={code} href={absoluteUrl(page, code, Astro.site)} />)}
+    {page && <link rel="alternate" hreflang="x-default" href={absoluteUrl(page, DEFAULT_LOCALE, Astro.site)} />}
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <meta name="theme-color" content="#174457" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={clinic.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content={OG_LOCALE[lang]} />
+    {otherLocales.map((code) => <meta property="og:locale:alternate" content={OG_LOCALE[code]} />)}
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content={String(ogImage.attributes.width)} />
+    <meta property="og:image:height" content={String(ogImage.attributes.height)} />
+    <meta property="og:image:alt" content={ui.home.portraitAlt} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <JsonLd data={clinicSchema(lang, Astro.site, { photo: ogImageUrl, logo: logoUrl }, { withServices: page === 'services' })} />
+    {page === 'home' && <JsonLd data={websiteSchema(lang, Astro.site)} />}
+  </head>
+  <body>
+    <IconSprite />
+    <SiteHeader lang={lang} page={page} />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter lang={lang} page={page} />
+    <FloatingActions lang={lang} />
+  </body>
+</html>

@@ -1,0 +1,126 @@
+---
+import Breadcrumb from '../components/Breadcrumb.astro';
+import CasePair from '../components/CasePair.astro';
+import ContactBand from '../components/ContactBand.astro';
+import Icon from '../components/Icon.astro';
+import TreatmentCard from '../components/TreatmentCard.astro';
+import { whatsappHref } from '../data/clinic';
+import { GROUP_ICONS, GROUP_KEYS, treatmentsIn } from '../data/treatments';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import type { Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const ui = t(lang);
+
+// Implant placement leads its group as a featured card with its before / after X-rays;
+// every other treatment is a card that opens in place.
+const groups = GROUP_KEYS.map((key) => {
+  const treatments = treatmentsIn(key);
+  const featured = key === 'implantologie' ? treatments[0] : undefined;
+  return { key, featured, cards: featured ? treatments.slice(1) : treatments };
+});
+---
+
+<BaseLayout lang={lang} page="services">
+  <div class="services-wrap">
+    <div class="container page-head">
+      <Breadcrumb lang={lang} page="services" />
+      <h1 class="h1">{ui.services.title}</h1>
+      <p class="lead">{ui.services.lead}</p>
+    </div>
+
+    <div class="container group-nav-bar">
+      <nav class="group-nav" aria-label={ui.services.groupsLabel}>
+        {
+          GROUP_KEYS.map((key) => (
+            <a href={`#${key}`}>
+              {ui.services.groups[key].title}
+              <i>{treatmentsIn(key).length}</i>
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+
+    {
+      groups.map(({ key, featured, cards }, index) => (
+        <section class:list={['section', { 'section--tint': index % 2 === 1 }]} id={key} aria-labelledby={`${key}-title`}>
+          <div class="container treat-group">
+            <div class="treat-group__head">
+              <span class="icon-tile">
+                <Icon name={GROUP_ICONS[key]} />
+              </span>
+              <div>
+                <h2 class="h2" id={`${key}-title`}>
+                  {ui.services.groups[key].title}
+                </h2>
+                <p class="muted">{ui.services.groups[key].text}</p>
+              </div>
+            </div>
+
+            <div class:list={['treat-grid', { 'treat-grid--3': !featured }]}>
+              {featured && featured.caseKey && (
+                <article class="feature" id={featured.slug}>
+                  <div class="feature__media">
+                    <CasePair
+                      caseKey={featured.caseKey}
+                      lang={lang}
+                      title={featured.title[lang]}
+                      sizes="(max-width: 800px) 46vw, 260px"
+                    />
+                  </div>
+                  <div class="feature__body">
+                    <span class="tag">{ui.common.beforeAfter}</span>
+                    <h3>{featured.title[lang]}</h3>
+                    <p>{featured.body[lang]}</p>
+                    <a
+                      class="more-link"
+                      href={whatsappHref(ui.common.whatsappAbout + featured.title[lang])}
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      <Icon name="whatsapp" />
+                      {ui.common.bookTreatment}
+                    </a>
+                  </div>
+                </article>
+              )}
+              {cards.map((treatment) => (
+                <TreatmentCard treatment={treatment} lang={lang} />
+              ))}
+            </div>
+          </div>
+        </section>
+      ))
+    }
+  </div>
+
+  <ContactBand lang={lang} />
+</BaseLayout>
+
+<script>
+  // Open the treatment named in the address (#greffe-gingivale), and keep the address in
+  // sync when a visitor opens a card, so it can be shared on WhatsApp.
+  const openFromHash = () => {
+    const id = decodeURIComponent(window.location.hash.slice(1));
+    const target = id ? document.getElementById(id) : null;
+    if (target instanceof HTMLDetailsElement) {
+      target.open = true;
+      target.scrollIntoView({ block: 'start' });
+    }
+  };
+
+  document.querySelectorAll<HTMLDetailsElement>('details.treat').forEach((card) => {
+    card.addEventListener('toggle', () => {
+      if (card.open) history.replaceState(null, '', `#${card.id}`);
+    });
+  });
+
+  openFromHash();
+  window.addEventListener('hashchange', openFromHash);
+</script>

@@ -1,0 +1,26 @@
+---
+import { faqSchema } from '../data/structured-data';
+import Icon from './Icon.astro';
+import JsonLd from './JsonLd.astro';
+
+interface Props {
+  items: { q: string; a: string }[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="faq">
+  {
+    items.map((item, index) => (
+      <details open={index === 0}>
+        <summary>
+          {item.q}
+          <Icon name="plus" />
+        </summary>
+        <p>{item.a}</p>
+      </details>
+    ))
+  }
+</div>
+<JsonLd data={faqSchema(items)} />
