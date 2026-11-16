@@ -1,0 +1,79 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
+import { clinic, whatsappHref } from '../data/clinic';
+import { LOCALES, PAGE_KEYS, href, type Locale, type PageKey } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Locale;
+  page?: PageKey;
+}
+
+const { lang, page } = Astro.props;
+const ui = t(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a href={href('home', lang)}>
+        <Image src={logo} alt={`${clinic.doctor} · ${ui.nav.home}`} height={92} />
+      </a>
+      <p>{ui.footer.tagline}</p>
+      <p>{ui.common.address}</p>
+    </div>
+
+    <div class="footer-col">
+      <h2>{ui.footer.pages}</h2>
+      <ul>
+        {
+          PAGE_KEYS.map((key) => (
+            <li>
+              <a href={href(key, lang)}>{ui.nav[key]}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h2>{ui.footer.contact}</h2>
+      <ul>
+        <li><a href={clinic.phoneHref}><Icon name="phone" /><span class="ltr">{clinic.phone}</span></a></li>
+        <li>
+          <a href={whatsappHref(ui.common.whatsappMessage)} target="_blank" rel="noopener"><Icon name="whatsapp" />{ui.common.whatsapp}</a>
+        </li>
+        <li><a href={`mailto:${clinic.email}`}><Icon name="mail" /><span class="ltr">{clinic.email}</span></a></li>
+        <li>{ui.hours.short}</li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h2>{ui.footer.follow}</h2>
+      <ul>
+        <li><a href={clinic.social.facebook} target="_blank" rel="noopener"><Icon name="facebook" />Facebook</a></li>
+        <li><a href={clinic.social.instagram} target="_blank" rel="noopener"><Icon name="instagram" />Instagram</a></li>
+      </ul>
+      <h2>{ui.footer.languages}</h2>
+      <ul>
+        {
+          LOCALES.map((code) => (
+            <li>
+              <a href={href(page ?? 'home', code)} hreflang={code} lang={code}>
+                {t(code).languageName}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <span>© {year} {ui.footer.rights}</span>
+    <span>implants-hammamet.tn</span>
+  </div>
+</footer>

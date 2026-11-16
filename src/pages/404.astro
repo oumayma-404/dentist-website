@@ -1,0 +1,25 @@
+---
+// GitHub Pages serves this file for any unknown address.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { LOCALES, href } from '../i18n/routes';
+import { t } from '../i18n/ui';
+
+const ui = t('fr');
+---
+
+<BaseLayout lang="fr" title={`${ui.notFound.title} · ${ui.doctorName}`} description={ui.notFound.text} noindex>
+  <div class="container not-found">
+    <p class="kicker">404</p>
+    <h1 class="h1">{ui.notFound.title}</h1>
+    <p class="lead">{ui.notFound.text}</p>
+    <div class="actions">
+      {
+        LOCALES.map((code, index) => (
+          <a class:list={['btn', index === 0 ? 'btn--primary' : 'btn--ghost']} href={href('home', code)} lang={code} hreflang={code}>
+            {t(code).notFound.back}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>

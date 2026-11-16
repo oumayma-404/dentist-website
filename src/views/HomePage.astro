@@ -1,0 +1,196 @@
+---
+import { Image } from 'astro:assets';
+import cabinet1 from '../assets/clinic/cabinet1.jpg';
+import cabinet3 from '../assets/clinic/cabinet3.jpg';
+import doctor from '../assets/doctor.png';
+import ArchPortrait from '../components/ArchPortrait.astro';
+import ContactBand from '../components/ContactBand.astro';
+import Faq from '../components/Faq.astro';
+import Icon from '../components/Icon.astro';
+import type { IconName } from '../components/icons';
+import { clinic, whatsappHref } from '../data/clinic';
+import { treatmentBySlug } from '../data/treatments';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { href, type Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const ui = t(lang);
+const home = ui.home;
+
+const specialties = [
+  {
+    icon: 'tooth',
+    copy: home.perio,
+    group: 'parodontologie',
+    slugs: ['detartrage-curetage', 'greffe-gingivale', 'regeneration-parodontale', 'contention-parodontale'],
+  },
+  {
+    icon: 'implant',
+    copy: home.implant,
+    group: 'implantologie',
+    slugs: ['pose-implants', 'implants-immediats', 'greffe-osseuse', 'reconstruction-arcade'],
+  },
+] satisfies { icon: IconName; copy: { title: string; text: string; link: string }; group: string; slugs: string[] }[];
+
+const alsoTreatments: { icon: IconName; slug: string; label: string }[] = [
+  { icon: 'extract', slug: 'extraction-chirurgicale', label: treatmentBySlug('extraction-chirurgicale').title[lang] },
+  { icon: 'tooth', slug: 'extraction-chirurgicale', label: home.also.wisdomTeeth },
+  { icon: 'target', slug: 'enucleation-kystes', label: treatmentBySlug('enucleation-kystes').title[lang] },
+  { icon: 'scissors', slug: 'frenectomie', label: treatmentBySlug('frenectomie').title[lang] },
+];
+---
+
+<BaseLayout lang={lang} page="home">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container hero__inner">
+      <div class="hero__text">
+        <h1 class="hero__title" id="hero-title">
+          <span class="kicker">{home.eyebrow}</span>
+          <span class="feston" aria-hidden="true"></span>
+          <span class="h1">{home.title} <em>{home.titleEm}</em></span>
+        </h1>
+        <p class="lead">{home.lead}</p>
+        <div class="actions">
+          <a class="btn btn--primary" href={href('contact', lang)}>{ui.nav.book}</a>
+          <a class="btn btn--whatsapp" href={whatsappHref(ui.common.whatsappMessage)} target="_blank" rel="noopener">
+            <Icon name="whatsapp" />{ui.common.whatsapp}
+          </a>
+        </div>
+        <ul class="creds">
+          {
+            home.credentials.map((credential, index) => (
+              <li class="chip">
+                <Icon name={index === 0 ? 'cap' : 'check'} />
+                {credential}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <ArchPortrait
+        src={doctor}
+        alt={home.portraitAlt}
+        name={ui.doctorName}
+        role={home.portraitRole}
+        sizes="(max-width: 640px) 260px, (max-width: 800px) 320px, 420px"
+        eager
+      />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="expertise-title">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div>
+          <p class="kicker">{home.expertise.kicker}</p>
+          <h2 class="h2" id="expertise-title">{home.expertise.title}</h2>
+        </div>
+        <p class="muted">{home.expertise.text}</p>
+      </div>
+
+      <div class="spec-grid">
+        {
+          specialties.map((specialty) => (
+            <article class="card">
+              <span class="icon-tile">
+                <Icon name={specialty.icon} />
+              </span>
+              <h3>{specialty.copy.title}</h3>
+              <p class="muted">{specialty.copy.text}</p>
+              <ul class="check-list">
+                {specialty.slugs.map((slug) => (
+                  <li>
+                    <Icon name="check" />
+                    <a href={href('services', lang, slug)}>{treatmentBySlug(slug).title[lang]}</a>
+                  </li>
+                ))}
+              </ul>
+              <a class="more-link" href={href('services', lang, specialty.group)}>
+                {specialty.copy.link}
+                <Icon name="arrow" class="flip" />
+              </a>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="also">
+        <div class="also__text">
+          <b>{home.also.title}</b>
+          <span>{home.also.text}</span>
+        </div>
+        <ul class="also__list">
+          {
+            alsoTreatments.map((item) => (
+              <li>
+                <a class="chip" href={href('services', lang, item.slug)}>
+                  <Icon name={item.icon} />
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <a class="more-link" href={href('services', lang)}>{ui.common.allTreatments}<Icon name="arrow" class="flip" /></a>
+      </div>
+
+      <a class="abroad-band" href={href('abroad', lang)}>
+        <span class="icon-tile"><Icon name="globe" /></span>
+        <span class="abroad-band__text">
+          <span class="kicker">{home.abroadBand.kicker}</span>
+          <b>{home.abroadBand.title}</b>
+          <span>{home.abroadBand.text}</span>
+        </span>
+        <span class="more-link">{home.abroadBand.link}<Icon name="arrow" class="flip" /></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="section section--tint" aria-labelledby="faq-title">
+    <div class="container faq-layout">
+      <div class="section-head">
+        <p class="kicker">{home.faq.kicker}</p>
+        <h2 class="h2" id="faq-title">{home.faq.title}</h2>
+        <p class="muted">{home.faq.text}</p>
+      </div>
+      <Faq items={home.faq.items} />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="clinic-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="kicker">{home.clinic.kicker}</p>
+        <h2 class="h2" id="clinic-title">{home.clinic.title}</h2>
+      </div>
+      <div class="bento">
+        <Image class="bento__big" src={cabinet1} alt={ui.about.photos.room} widths={[480, 720, 960]} sizes="(max-width: 800px) 92vw, 640px" />
+        <Image src={cabinet3} alt={ui.about.photos.consultation} widths={[400, 600]} sizes="(max-width: 800px) 92vw, 470px" />
+        <div class="bento__text">
+          <Icon name="shield" />
+          <h3>{home.clinic.hygieneTitle}</h3>
+          <p>{home.clinic.hygieneText}</p>
+          <a class="more-link" href={href('about', lang)}>{home.clinic.link}<Icon name="arrow" class="flip" /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tint" aria-labelledby="reviews-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="kicker">{home.reviews.kicker}</p>
+        <h2 class="h2" id="reviews-title">{home.reviews.title}</h2>
+      </div>
+      <div class:list={['reviews-widget', clinic.elfsightAppClass]} data-elfsight-app-lazy></div>
+      <script is:inline src="https://static.elfsight.com/platform/platform.js" async></script>
+    </div>
+  </section>
+
+  <ContactBand lang={lang} />
+</BaseLayout>

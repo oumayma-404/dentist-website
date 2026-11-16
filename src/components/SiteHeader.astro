@@ -1,0 +1,92 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
+import { clinic } from '../data/clinic';
+import { PAGE_KEYS, href, type Locale, type PageKey } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import Icon from './Icon.astro';
+import LanguageSwitch from './LanguageSwitch.astro';
+
+interface Props {
+  lang: Locale;
+  page?: PageKey;
+}
+
+const { lang, page } = Astro.props;
+const ui = t(lang);
+---
+
+<a class="skip-link" href="#main">{ui.nav.skip}</a>
+
+<div class="topbar">
+  <div class="container topbar__inner">
+    <div class="topbar__info">
+      <a href={clinic.phoneHref}><Icon name="phone" /><span class="ltr">{clinic.phone}</span></a>
+      <span><Icon name="clock" />{ui.hours.short}</span>
+      <a href={clinic.mapsUrl} target="_blank" rel="noopener"><Icon name="pin" />{ui.common.addressShort}</a>
+    </div>
+    <LanguageSwitch lang={lang} page={page} />
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="brand" href={href('home', lang)}>
+      <Image src={logo} alt={`${clinic.doctor} · ${ui.nav.home}`} height={92} loading="eager" />
+    </a>
+
+    <div class="site-header__end">
+      <nav class="main-nav" id="main-nav" aria-label={ui.nav.main}>
+        <ul class="main-nav__list">
+          {
+            PAGE_KEYS.map((key) => (
+              <li>
+                <a href={href(key, lang)} aria-current={key === page ? 'page' : undefined}>
+                  {ui.nav[key]}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="main-nav__extra">
+          <LanguageSwitch lang={lang} page={page} />
+          <a class="btn btn--primary btn--sm" href={href('contact', lang)}>{ui.nav.book}</a>
+        </div>
+      </nav>
+      <a class="btn btn--primary btn--sm" href={href('contact', lang)}>{ui.nav.book}</a>
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-controls="main-nav"
+        aria-expanded="false"
+        aria-label={ui.nav.menu}
+        data-label-open={ui.nav.menu}
+        data-label-close={ui.nav.closeMenu}
+      >
+        <Icon name="menu" class="icon--open" />
+        <Icon name="close" class="icon--close" />
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const nav = document.getElementById('main-nav');
+
+  if (toggle && nav) {
+    const setOpen = (open: boolean) => {
+      nav.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', (open ? toggle.dataset.labelClose : toggle.dataset.labelOpen) ?? '');
+    };
+
+    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') setOpen(false);
+    });
+    nav.addEventListener('click', (event) => {
+      if (event.target instanceof Element && event.target.closest('a')) setOpen(false);
+    });
+  }
+</script>

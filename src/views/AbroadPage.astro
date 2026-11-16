@@ -1,0 +1,106 @@
+---
+import doctor from '../assets/doctor.png';
+import ArchPortrait from '../components/ArchPortrait.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import ContactBand from '../components/ContactBand.astro';
+import Faq from '../components/Faq.astro';
+import Icon from '../components/Icon.astro';
+import type { IconName } from '../components/icons';
+import OpeningHours from '../components/OpeningHours.astro';
+import { clinic, whatsappHref } from '../data/clinic';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { href, type Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const ui = t(lang);
+const abroad = ui.abroad;
+
+// Only facts confirmed by the clinic: who treats, languages, how to get in touch, how to get there.
+const facts: { icon: IconName; title: string; text?: string }[] = [
+  { icon: 'cap', ...abroad.facts.doctor },
+  { icon: 'globe', ...abroad.facts.languages },
+  { icon: 'whatsapp', ...abroad.facts.contact },
+  { icon: 'route', ...abroad.facts.travel },
+];
+---
+
+<BaseLayout lang={lang} page="abroad">
+  <section class="hero" aria-labelledby="abroad-title">
+    <div class="container">
+      <div class="page-head">
+        <Breadcrumb lang={lang} page="abroad" />
+      </div>
+    </div>
+    <div class="container hero__inner">
+      <div class="hero__text">
+        <p class="kicker">{abroad.kicker}</p>
+        <span class="feston" aria-hidden="true"></span>
+        <h1 class="h1" id="abroad-title">{abroad.title}</h1>
+        <p class="lead">{abroad.lead}</p>
+        <div class="actions">
+          <a class="btn btn--primary" href={whatsappHref(ui.common.whatsappMessage)} target="_blank" rel="noopener">
+            <Icon name="whatsapp" />{ui.common.whatsapp}
+          </a>
+          <a class="btn btn--ghost" href={clinic.phoneHref}><Icon name="phone" /><span class="ltr">{clinic.phone}</span></a>
+        </div>
+      </div>
+      <ArchPortrait
+        src={doctor}
+        alt={ui.home.portraitAlt}
+        name={ui.doctorName}
+        role={ui.home.portraitRole}
+        sizes="(max-width: 640px) 260px, (max-width: 800px) 320px, 400px"
+        eager
+      />
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="container facts">
+      {
+        facts.map((fact) => (
+          <div class="value">
+            <span class="icon-tile">
+              <Icon name={fact.icon} />
+            </span>
+            <h2 class="fact__title">{fact.title}</h2>
+            <p>{fact.text}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="abroad-treatments-title">
+    <div class="container abroad-plan">
+      <div class="card">
+        <span class="icon-tile"><Icon name="implant" /></span>
+        <h2 class="h2" id="abroad-treatments-title">{abroad.treatments.title}</h2>
+        <p class="muted">{abroad.treatments.text}</p>
+        <ul class="check-list">
+          <li><Icon name="check" /><a href={href('services', lang, 'implantologie')}>{ui.home.implant.link}</a></li>
+          <li><Icon name="check" /><a href={href('services', lang, 'parodontologie')}>{ui.home.perio.link}</a></li>
+        </ul>
+        <a class="more-link" href={href('services', lang)}>{ui.common.allTreatments}<Icon name="arrow" class="flip" /></a>
+      </div>
+      <OpeningHours lang={lang} />
+    </div>
+  </section>
+
+  <section class="section section--tint" aria-labelledby="abroad-faq-title">
+    <div class="container faq-layout">
+      <div class="section-head">
+        <p class="kicker">{abroad.kicker}</p>
+        <h2 class="h2" id="abroad-faq-title">{abroad.faq.title}</h2>
+      </div>
+      <Faq items={abroad.faq.items} />
+    </div>
+  </section>
+
+  <ContactBand lang={lang} />
+</BaseLayout>

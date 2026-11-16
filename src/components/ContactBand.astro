@@ -1,0 +1,59 @@
+---
+import { clinic, whatsappHref } from '../data/clinic';
+import type { Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const ui = t(lang);
+---
+
+<section class="cta-band" aria-labelledby="cta-title">
+  <div class="container cta-band__inner">
+    <div>
+      <span class="feston" aria-hidden="true"></span>
+      <h2 id="cta-title">{ui.cta.title}</h2>
+      <p>{ui.cta.text}</p>
+      <div class="actions">
+        <a class="btn btn--light" href={clinic.phoneHref}><Icon name="phone" />{ui.cta.call}</a>
+        <a class="btn btn--outline-light" href={whatsappHref(ui.common.whatsappMessage)} target="_blank" rel="noopener">
+          <Icon name="whatsapp" />{ui.common.whatsapp}
+        </a>
+      </div>
+    </div>
+
+    <ul class="contact-rows">
+      <li>
+        <a class="contact-row" href={clinic.phoneHref}>
+          <span class="contact-row__icon"><Icon name="phone" /></span>
+          <span><small>{ui.common.phone} · {ui.common.whatsapp}</small><strong class="ltr">{clinic.phone}</strong></span>
+          <Icon name="arrow" class="flip" />
+        </a>
+      </li>
+      <li>
+        <a class="contact-row" href={`mailto:${clinic.email}`}>
+          <span class="contact-row__icon"><Icon name="mail" /></span>
+          <span><small>{ui.common.email}</small><strong class="ltr">{clinic.email}</strong></span>
+          <Icon name="arrow" class="flip" />
+        </a>
+      </li>
+      <li>
+        <div class="contact-row">
+          <span class="contact-row__icon"><Icon name="clock" /></span>
+          <span><small>{ui.common.hours}</small><strong>{ui.hours.short}</strong></span>
+        </div>
+      </li>
+      <li>
+        <a class="contact-row" href={clinic.mapsUrl} target="_blank" rel="noopener">
+          <span class="contact-row__icon"><Icon name="pin" /></span>
+          <span><small>{ui.common.addressLabel}</small><strong>{ui.common.addressShort}</strong></span>
+          <Icon name="arrow" class="flip" />
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>

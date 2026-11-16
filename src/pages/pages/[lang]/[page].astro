@@ -1,0 +1,20 @@
+---
+// Every other page: /pages/{lang}/{name}-{lang}.html, generated from the route map in src/i18n/routes.ts.
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import { pagePaths } from '../../../i18n/routes';
+import AboutPage from '../../../views/AboutPage.astro';
+import AbroadPage from '../../../views/AbroadPage.astro';
+import ContactPage from '../../../views/ContactPage.astro';
+import HomePage from '../../../views/HomePage.astro';
+import ServicesPage from '../../../views/ServicesPage.astro';
+
+export const getStaticPaths = (() => pagePaths()) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { lang, pageKey } = Astro.props as Props;
+const VIEWS = { home: HomePage, about: AboutPage, services: ServicesPage, abroad: AbroadPage, contact: ContactPage } as const;
+const View = VIEWS[pageKey];
+---
+
+<View lang={lang} />

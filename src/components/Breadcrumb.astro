@@ -1,0 +1,30 @@
+---
+import { breadcrumbSchema } from '../data/structured-data';
+import { absoluteUrl, href, type Locale, type PageKey } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import Icon from './Icon.astro';
+import JsonLd from './JsonLd.astro';
+
+interface Props {
+  lang: Locale;
+  page: Exclude<PageKey, 'home'>;
+}
+
+const { lang, page } = Astro.props;
+const ui = t(lang);
+const trail = [
+  { name: ui.nav.home, url: absoluteUrl('home', lang, Astro.site) },
+  { name: ui.nav[page], url: absoluteUrl(page, lang, Astro.site) },
+];
+---
+
+<nav class="breadcrumb" aria-label={ui.nav.breadcrumb}>
+  <ol>
+    <li><a href={href('home', lang)}>{ui.nav.home}</a></li>
+    <li>
+      <Icon name="chevron" class="flip" />
+      <span aria-current="page">{ui.nav[page]}</span>
+    </li>
+  </ol>
+</nav>
+<JsonLd data={breadcrumbSchema(trail)} />

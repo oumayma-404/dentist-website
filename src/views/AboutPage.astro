@@ -1,0 +1,139 @@
+---
+import { getImage, Image } from 'astro:assets';
+import cabinet1 from '../assets/clinic/cabinet1.jpg';
+import cabinet2 from '../assets/clinic/cabinet2.jpg';
+import cabinet3 from '../assets/clinic/cabinet3.jpg';
+import doctor from '../assets/doctor.png';
+import ArchPortrait from '../components/ArchPortrait.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import ContactBand from '../components/ContactBand.astro';
+import Icon from '../components/Icon.astro';
+import JsonLd from '../components/JsonLd.astro';
+import type { IconName } from '../components/icons';
+import { doctorSchema } from '../data/structured-data';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { href, type Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const ui = t(lang);
+const about = ui.about;
+
+const cvCards = [
+  { icon: 'cap', title: about.cv.diplomas, items: about.cv.diplomaItems },
+  { icon: 'tooth', title: about.cv.experience, items: about.cv.experienceItems },
+] satisfies { icon: IconName; title: string; items: { title: string; text?: string }[] }[];
+
+const portrait = await getImage({ src: doctor, width: 960, format: 'jpg' });
+const portraitUrl = new URL(portrait.src, Astro.site).href;
+
+const valueIcons: IconName[] = ['heart', 'shield', 'cap'];
+const photos = [
+  { src: cabinet1, alt: about.photos.room },
+  { src: cabinet2, alt: about.photos.office },
+  { src: cabinet3, alt: about.photos.consultation },
+];
+---
+
+<BaseLayout lang={lang} page="about">
+  <JsonLd data={doctorSchema(lang, Astro.site, portraitUrl)} />
+  <div class="container">
+    <div class="page-head">
+      <Breadcrumb lang={lang} page="about" />
+    </div>
+    <section class="profile" aria-labelledby="doctor-name">
+      <ArchPortrait src={doctor} alt={ui.home.portraitAlt} sizes="(max-width: 800px) 320px, 360px" eager />
+      <div class="profile__text">
+        <p class="kicker">{about.kicker}</p>
+        <h1 class="doctor-name" id="doctor-name">{ui.doctorName}</h1>
+        <p class="doctor-role">{about.role}</p>
+        <div class="bio">
+          {about.bio.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+        <div class="actions">
+          <a class="btn btn--primary" href={href('contact', lang)}>{ui.nav.book}</a>
+          <a class="btn btn--ghost" href={href('services', lang)}>{about.seeTreatments}</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="section section--tint" aria-labelledby="cv-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="kicker">{about.cv.kicker}</p>
+        <h2 class="h2" id="cv-title">{about.cv.title}</h2>
+      </div>
+      <div class="cv">
+        {
+          cvCards.map((card) => (
+            <div class="cv-card">
+              <h3>
+                <span class="icon-tile">
+                  <Icon name={card.icon} />
+                </span>
+                {card.title}
+              </h3>
+              <ul class="cv-list">
+                {card.items.map((item) => (
+                  <li>
+                    <Icon name="check" />
+                    <span>
+                      {item.title}
+                      {item.text && <small>{item.text}</small>}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="values-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="kicker">{about.values.kicker}</p>
+        <h2 class="h2" id="values-title">{about.values.title}</h2>
+      </div>
+      <div class="values">
+        {
+          about.values.items.map((value, index) => (
+            <div class="value">
+              <span class="icon-tile">
+                <Icon name={valueIcons[index] ?? 'check'} />
+              </span>
+              <h3>{value.title}</h3>
+              <p>{value.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tint" aria-labelledby="clinic-title">
+    <div class="container">
+      <div class="clinic-text">
+        <div class="section-head">
+          <p class="kicker">{about.clinic.kicker}</p>
+          <h2 class="h2" id="clinic-title">{about.clinic.title}</h2>
+        </div>
+        <div class="prose">
+          {about.clinic.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+      </div>
+      <div class="photo-strip">
+        {photos.map((photo) => <Image src={photo.src} alt={photo.alt} widths={[400, 600]} sizes="(max-width: 640px) 46vw, 360px" />)}
+      </div>
+    </div>
+  </section>
+
+  <ContactBand lang={lang} />
+</BaseLayout>

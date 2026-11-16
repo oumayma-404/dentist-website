@@ -1,0 +1,25 @@
+---
+import { clinic, whatsappHref } from '../data/clinic';
+import type { Locale } from '../i18n/routes';
+import { t } from '../i18n/ui';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const ui = t(lang);
+const whatsapp = whatsappHref(ui.common.whatsappMessage);
+---
+
+<!-- Desktop: floating WhatsApp button. Phones: a bottom bar with the three actions a patient needs. -->
+<a class="wa-fab" href={whatsapp} target="_blank" rel="noopener" aria-label={ui.common.whatsapp}>
+  <Icon name="whatsapp" />
+</a>
+
+<nav class="dock" aria-label={ui.nav.book}>
+  <a href={clinic.phoneHref}><Icon name="phone" />{ui.common.call}</a>
+  <a href={whatsapp} target="_blank" rel="noopener"><Icon name="whatsapp" />{ui.common.whatsapp}</a>
+  <a href={clinic.mapsUrl} target="_blank" rel="noopener"><Icon name="route" />{ui.common.directions}</a>
+</nav>
