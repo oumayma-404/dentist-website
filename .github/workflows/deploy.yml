@@ -1,10 +1,11 @@
 name: Deploy to GitHub Pages
 
-# Builds the Astro site and publishes dist/ to GitHub Pages.
+# Builds the Astro site and publishes dist/ to GitHub Pages on every push to make-changes,
+# the branch the live site is published from.
 # Requires Settings → Pages → Source: "GitHub Actions".
 on:
   push:
-    branches: [main]
+    branches: [make-changes]
   workflow_dispatch:
 
 permissions:

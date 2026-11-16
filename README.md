@@ -40,6 +40,7 @@ or a broken link or anchor.
 
 ## Deploying
 
-Pushing to `main` runs `.github/workflows/deploy.yml`, which builds the site and publishes it.
+Pushing to `make-changes` runs `.github/workflows/deploy.yml`, which builds the site and publishes it
+to implants-hammamet.tn. You can also start it by hand from the repository's **Actions** tab.
 In the repository settings, **Pages → Source** must be set to **GitHub Actions**, and the
 custom domain `implants-hammamet.tn` must stay set there.
